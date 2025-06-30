@@ -14,20 +14,10 @@ using namespace std;
 // Cross-platform getch implementation
 #ifdef _WIN32
 #include <conio.h>
+#include <windows.h>
 #else
 #include <termios.h>
 #include <unistd.h>
-int getch(void) {
-    struct termios oldattr, newattr;
-    int ch;
-    tcgetattr(STDIN_FILENO, &oldattr);
-    newattr = oldattr;
-    newattr.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &newattr);
-    ch = getchar();
-    tcsetattr(STDIN_FILENO, TCSANOW, &oldattr);
-    return ch;
-}
 #endif
 
 int k=7,r=0,flag=0;
@@ -41,30 +31,69 @@ float points1=0,mbuy1=0;
 void craditcard();
 void admin();
 void user();
-void design(int a,char ch)// function is used to design at the top of the screen
-{
-	cout<<"\n\n\n";
-	std::cout << "\033[2J\033[1;1H";  // Clears screen using ANSI codes, works on most terminals
-	cout<<"\t\t\t"<<setw(a+5)<<setfill(ch);
-	cout<<"\n\n\t\t\t\t\t"<<"SAHUJI";
-	cout<<"\n\n\t\t\t"<<setw(a)<<setfill(ch);
-	cout<<"\n\n";
-	}
-
+// Platform-specific clear screen and gotoxy
+void design(int a,char ch) {
+    cout << "\n\n\n";
+#ifdef _WIN32
+    system("cls");
+#else
+    std::cout << "\033[2J\033[1;1H";
+#endif
+    cout << "\t\t\t" << setw(a+5) << setfill(ch);
+    cout << "\n\n\t\t\t\t\tSAHUJI";
+    cout << "\n\n\t\t\t" << setw(a) << setfill(ch);
+    cout << "\n\n";
+}
+#ifdef _WIN32
+void gotoxy(int x, int y) {
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+#else
 void gotoxy(int x, int y) {
     std::cout << "\033[" << y << ";" << x << "H";
 }
+#endif
 
 struct date
 {
     int mm,dd,yy;
 };
 
+// Cross-platform getpass
 string getpass(const char *prompt, bool show_asterisk = true) {
+#ifdef _WIN32
+    const char BACKSPACE=8;
+    const char RETURN=13;
+    string password;
+    unsigned char ch=0;
+    cout << prompt << endl;
+    DWORD con_mode;
+    DWORD dwRead;
+    HANDLE hIn=GetStdHandle(STD_INPUT_HANDLE);
+    GetConsoleMode(hIn, &con_mode);
+    SetConsoleMode(hIn, con_mode & ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT));
+    while(ReadConsoleA(hIn, &ch, 1, &dwRead, NULL) && ch != RETURN) {
+        if(ch==BACKSPACE) {
+            if(password.length()!=0) {
+                if(show_asterisk) cout << "\b \b";
+                password.resize(password.length()-1);
+            }
+        } else {
+            password+=ch;
+            if(show_asterisk) cout << '*';
+        }
+    }
+    cout << endl;
+    SetConsoleMode(hIn, con_mode);
+    return password;
+#else
     termios oldt, newt;
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
-    newt.c_lflag &= ~ECHO;  // Disable echo
+    newt.c_lflag &= ~ECHO;
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
     string password;
     char ch;
@@ -73,27 +102,36 @@ string getpass(const char *prompt, bool show_asterisk = true) {
         if (show_asterisk) std::cout << '*';
         password += ch;
     }
-    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);  // Restore terminal settings
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
     std::cout << std::endl;
     return password;
+#endif
 }
 
-// Utility functions for admin password management
-string read_admin_password() {
-    ifstream fin("admin_pass.txt");
-    string pass;
-    if (fin.is_open()) {
-        getline(fin, pass);
-        fin.close();
-        if (!pass.empty()) return pass;
+// Admin password file path
+const string ADMIN_PWD_FILE = "adminpwd.txt";
+
+// Read admin password from file, or create with default if missing
+string get_admin_password() {
+    ifstream pwdfile(ADMIN_PWD_FILE);
+    string pwd;
+    if (pwdfile.is_open()) {
+        getline(pwdfile, pwd);
+        pwdfile.close();
+        if (!pwd.empty()) return pwd;
     }
-    // Default password if file does not exist or is empty
+    // If file missing or empty, create with default
+    ofstream out(ADMIN_PWD_FILE);
+    out << "admin" << endl;
+    out.close();
     return "admin";
 }
-void write_admin_password(const string& pass) {
-    ofstream fout("admin_pass.txt");
-    fout << pass;
-    fout.close();
+
+// Set new admin password
+void set_admin_password(const string& newpwd) {
+    ofstream out(ADMIN_PWD_FILE);
+    out << newpwd << endl;
+    out.close();
 }
 
 class project // base and main class where almost every thing is done.
@@ -383,13 +421,16 @@ void amount::report()
     cout<<iamt;
 
     k=k+1;
-    if(k==50)
-    {
+    if(k==50) {
         gotoxy(25,50);
         cout<<"PRESS ANY KEY TO CONTINUE...";
         getch();
         k=7;
-        system("clear");
+#ifdef _WIN32
+        system("cls");
+#else
+        std::cout << "\033[2J\033[1;1H";
+#endif
         gotoxy(30,3);
         cout<<" ITEM DETAILS ";
         gotoxy(3,5);
@@ -446,7 +487,7 @@ int main()
                     password = getpass("\n\n\n\t\t\t\tEnter the password for Admin : ", true);
 
                     // Use file-based password check
-                    if(password==read_admin_password())
+                    if(password==get_admin_password())
                     {
                         admin();
                         getch();
@@ -636,16 +677,11 @@ void admin()
            design(45,'*');
             add1: fout.open("itemstore.dat",ios::binary|ios::app);
             amt.add();
-            cout<<"\n\t\tItem Added Successfully!";
+            cout << "\n\t\tItem Added Successfully!";
             char choice;
-            cout<<" Do you want to add more item(y/n) ?\n";
+            cout << " Do you want to add more item(y/n) ?\n";
             cin >> choice;
-            if(choice =='y'||choice =='Y')
-            {
-                goto add1;
-            }
-            else
-            goto adm;
+            if(choice =='y'||choice =='Y') goto add1;
             getch();
            break;
        }
@@ -654,40 +690,31 @@ void admin()
         design(45,'*');
         view1: flag=0;
         int ino;
-        cout<<"\n\n\t\tEnter Item  identification Number : ";
-        cin>>ino;
+        cout << "\n\n\t\tEnter Item  identification Number : ";
+        cin >> ino;
         fin.open("itemstore.dat",ios::binary);
-        if(!fin)
-        {
-            cout<<"\n\nFile Not Found...\nProgram Terminated!";
-            goto adm;
-            break;
+        if(!fin) {
+            cout << "\n\nFile Not Found...\nProgram Terminated!";
+            return;
         }
         fin.seekg(0);
-        while(fin.read((char*)&amt,sizeof(amt)))
-        {
+        while(fin.read((char*)&amt,sizeof(amt))) {
             int x=amt.project::retno();
-            if(x==ino)
-            {
+            if(x==ino) {
                 amt.pay();
                 flag=1;
                 break;
             }
         }
         if(flag==0)
-            cout<<"\n\t\tItem does not exist....Please Retry!";
+            cout << "\n\t\tItem does not exist....Please Retry!";
         getch();
         fin.close();
         char choice;
-            cout<<"\n\t do you want to view more item (y/n) ?";
-            cin >> choice;
-        if(choice =='y'||choice =='Y')
-            {
-                goto view1;
-            }
-            else
-             goto adm;
-           break;
+        cout << "\n\t do you want to view more item (y/n) ?";
+        cin >> choice;
+        if(choice =='y'||choice =='Y') goto view1;
+        break;
        }
 
        case 3:
@@ -934,7 +961,7 @@ void admin()
            newpass = getpass("\n\n\t\tEnter new password: ", true);
            confirmpass = getpass("\n\t\tConfirm new password: ", true);
            if(newpass == confirmpass && !newpass.empty()) {
-               write_admin_password(newpass);
+               set_admin_password(newpass);
                cout << "\n\t\tPassword changed successfully!";
            } else {
                cout << "\n\t\tPasswords do not match or are empty. Try again.";
