@@ -303,3 +303,18 @@ void amount::refille()// used to add number of goods when it is about to empty.
 
 	fio.close();
 }
+
+void amount::show()//used to show numerical portion of product
+{
+    fin.open("itemstore.dat",ios::binary);
+    fin.read((char*)&amt,sizeof(amt));
+    project::show();
+    cout<<"\n\n\tindividual amount:";
+    cout<<iamt;
+    cout<<"\n\n\t quantity : ";
+    cout<<qty;
+
+    //cout<<"\n\n\tNet profit: ";
+    //cout<<profit;
+    fin.close();
+}
