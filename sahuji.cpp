@@ -502,4 +502,27 @@ int main()
         	    }
     }
     return 0;
-}
+}}
+
+ class costumer
+ {
+ 	friend class bill;
+ 	protected:
+ 		char name[50],ctn[50];
+ 		int age,cradit;
+ 		float points,mbuy;
+ 		public:
+ 			void cal()
+ 			{
+ 				if(points1<points)
+ 				{
+ 					strcpy(name1,name);
+ 					strcpy(ctn1,ctn);
+ 					age1=age;
+ 					cradit1=cradit;
+ 					points1=points;
+ 					mbuy1=mbuy;
+ 				}
+ 			 }
+
+
