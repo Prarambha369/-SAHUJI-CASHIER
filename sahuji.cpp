@@ -1056,3 +1056,86 @@ disp();
 
 //	getch();
 }
+//====================================buy wala==================================
+   void amount::report1()
+{
+    project::report();
+    gotoxy(23,k);
+    cout<<mrp;
+    gotoxy(33,k);
+    cout<<qty;
+    gotoxy(44,k);
+    cout<<tax;
+    gotoxy(52,k);
+    cout<<dis;
+    gotoxy(68,k);
+	cout<<iamt;
+    k=k+1;
+    if(k==50)
+    {
+        gotoxy(25,50);
+        cout<<"PRESS ANY KEY TO CONTINUE...";
+        getch();
+        k=7;
+        system("cls");
+        gotoxy(30,3);
+        cout<<" ITEM DETAILS ";
+        gotoxy(3,5);
+        cout<<" ID NUMBER";
+        gotoxy(13,5);
+        cout<<"NAME";
+        gotoxy(23,5);
+        cout<<"PRICE";
+        gotoxy(33,5);
+        cout<<"QUANTITY";
+        gotoxy(44,5);
+        cout<<"TAX";
+        gotoxy(52,5);
+        cout<<"DEDUCTION";
+    }
+}
+
+void amount::pay1(int c,int a)
+{
+	design(45,'*');
+
+
+    fin.read((char*)&amt,sizeof(amt));
+    project::show();
+    cout<<"\n\n\n\t\t*********************************************";
+    cout<<"\n\t\t                 DETAILS                  ";
+    cout<<"\n\t\t*********************************************";
+    cout<<"\n\n\t\tPRICE                       :"<<mrp;
+    cout<<"\n\n\t\tQUANTITY                    :"<<qty;
+    cout<<"\n\t\tTAX PERCENTAGE              :"<<tax;
+    cout<<"\n\t\tDISCOUNT PERCENTAGE         :"<<dis;
+    cout<<"\n\t\tINDIVIDUAL AMOUNT           :Rs."<<iamt;
+    cout<<"\n\t\t*********************************************";
+    getch(); cout<<"\n\n\t\tinput the quantity you want to buy ";
+     int quantity;
+    cin>>quantity;
+ //===================================================================
+int choice=c;
+int  pos;
+	fstream fio;
+	fio.open("itemstore.dat",ios::in|ios::out|ios::binary);
+	while(fio.read((char*)&amt,sizeof(amt)))
+	{
+		pos=fio.tellg();
+
+		if(choice==amt.project::retno())
+		{
+			fio.seekg(pos-sizeof(amt));
+			qty-=quantity;
+			fio.write((char*)&amt,sizeof(amt));
+		}
+	}
+	fio.close();
+
+		int crd=a;
+
+		cr.billcalc(crd,quantity,choice);
+		if(crd!=0)
+			co.calc(crd,quantity,choice);
+
+}
