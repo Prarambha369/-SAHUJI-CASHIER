@@ -12,6 +12,8 @@
 - [User Functions](#user-functions)
 - [Changing Admin Password](#changing-admin-password)
 - [Screenshots and Videos](#screenshots-and-videos)
+- [Recent Changes / Changelog](#recent-changes--changelog)
+- [Contribution Guidelines](#contribution-guidelines)
 - [License](#license)
 
 ---
@@ -39,13 +41,13 @@
 #### Linux
 ```sh
 sudo apt install g++                # Install g++ if not already installed
-g++ sahuji.cpp -o sahuji            # Compile the program
+g++ sahuji.cpp -o sahuji            # Compile the program (recompile after code changes)
 ./sahuji                            # Run the program
 ```
 #### Windows
-- Install MinGW or Visual Studio.
+- Install a C++ compiler like MinGW or use Visual Studio.
 - Compile with: `g++ sahuji.cpp -o sahuji`
-- Run: `sahuji.exe`
+- Run: `./sahuji` or `sahuji.exe` depending on your setup.
 
 ### 2. **Main Menu Navigation**
 When you start the program, you'll see a menu with the following options:
@@ -98,6 +100,14 @@ If you have a customer ID, you can earn points and track your purchases.
 ## 🖼️ Screenshots and Videos
 
 - [Video](https://hc-cdn.hel1.your-objectstorage.com/s/v3/36e0dd2a5c46fef6a8141f9dc83062cd44e5cfa5_sahuji_app_run.mp4)
+
+---
+
+## 🤝 Contribution Guidelines
+- Fork the repository.
+- Make changes and submit a pull request.
+- Ensure code is cross-platform compatible.
+- Report issues on the GitHub page if available.
 
 ---
 
