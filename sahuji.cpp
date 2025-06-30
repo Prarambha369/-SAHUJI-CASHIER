@@ -356,3 +356,47 @@ void amount::surv()
 		cout<<endl;
 		}
 }
+
+void amount::report()
+{
+    project::report();
+    gotoxy(23,k);
+    cout<<price;
+    gotoxy(33,k);
+    cout<<mrp;
+    gotoxy(44,k);
+    cout<<qty;
+    gotoxy(52,k);
+    cout<<tax;
+    gotoxy(64,k);
+    cout<<dis;
+    gotoxy(74,k);
+    cout<<iamt;
+
+    k=k+1;
+    if(k==50)
+    {
+        gotoxy(25,50);
+        cout<<"PRESS ANY KEY TO CONTINUE...";
+        getch();
+        k=7;
+        system("cls");
+        gotoxy(30,3);
+        cout<<" ITEM DETAILS ";
+        gotoxy(3,5);
+        cout<<" ID NUMBER";
+        gotoxy(13,5);
+        cout<<"NAME";
+        gotoxy(23,5);
+        cout<<"PRICE";
+        gotoxy(33,5);
+        cout<<"QUANTITY";
+        gotoxy(44,5);
+        cout<<"TAX";
+        gotoxy(52,5);
+        cout<<"DEDUCTION";
+        gotoxy(80,5);
+        cout<<" SELLING PRICE";
+
+    }
+}
