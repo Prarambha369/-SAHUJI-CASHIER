@@ -136,3 +136,39 @@ public:
     }
 }po;
 
+class amount: public project// derived class of base class project
+{
+	friend class bill;
+	protected:
+    float mrp,price,qty,tax,gross,dis,iamt,tqty,total;
+public:
+    void add();
+    void show();
+    void pay();
+    void pay1(int ,int);
+    void refille();
+    void edt();
+    void report();
+    void del(int);
+    void report1();
+    void surv();
+    float retiamt()
+    {
+    	return (iamt);
+	}
+    void qnt(int a)
+      {
+      	qty=a;
+	  }
+
+	  float rettotal()
+	  {
+	  	return (total);
+	  }
+	int retnum()
+	{
+		return (retno());
+	}
+
+
+} amt;
