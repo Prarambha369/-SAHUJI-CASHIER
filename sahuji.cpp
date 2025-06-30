@@ -9,6 +9,7 @@
 #include <time.h>
 #include <termios.h>
 #include <unistd.h>
+#include <limits> // Added for std::numeric_limits and streamsize
 using namespace std;
 
 // Cross-platform getch implementation
@@ -18,6 +19,17 @@ using namespace std;
 #else
 #include <termios.h>
 #include <unistd.h>
+int getch() {
+    struct termios oldt, newt;
+    int ch;
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    ch = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    return ch;
+}
 #endif
 
 int k=7,r=0,flag=0;
@@ -475,6 +487,7 @@ int main()
         cout<<"\n\t\t\t  4. EXIT ";
         cout<<"\n\t\t\t Enter Your choice: ";
         cin>>ch;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
         switch(ch)
         {
         	case 1:
@@ -485,7 +498,7 @@ int main()
             	{
             		done:
                     password = getpass("\n\n\n\t\t\t\tEnter the password for Admin : ", true);
-
+                    cout << "Debug: Entered password: '" << password << "', Expected password: '" << get_admin_password() << "'" << endl;
                     // Use file-based password check
                     if(password==get_admin_password())
                     {
@@ -502,6 +515,7 @@ int main()
                             cout<<"\n\n\n\t\t\tWrong password you have "<<tryd<<" chances left:";
                             cout<<"\n\n\n\t\t\t Do you want to try again (y/n) ? ";
                             cin>>again;
+                            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
                             if(again=="y"||again=="Y")
                             goto done;
                         }
@@ -523,6 +537,7 @@ int main()
         cout<<"ARE YOU SURE, YOU WANT TO EXIT (Y/N)?";
         char yn;
         cin>>yn;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
         if((yn=='Y')||(yn=='y'))
         {
             design(45,'*');
@@ -574,9 +589,6 @@ int main()
  					mbuy1=mbuy;
  				}
  			 }
-
-
-
 
 
 			int retcradit()
@@ -654,6 +666,7 @@ void admin_add_product() {
     char choice;
     cout << " Do you want to add more item(y/n) ?\n";
     cin >> choice;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
     if(choice =='y'||choice =='Y') goto add1;
     getch();
 }
@@ -685,6 +698,7 @@ void admin_view_product_details() {
     char choice;
     cout << "\n\t do you want to view more item (y/n) ?";
     cin >> choice;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
     if(choice =='y'||choice =='Y') goto view1;
 }
 
@@ -741,6 +755,7 @@ void admin_delete_product() {
     char choice;
     cout<<" Do you want to delete this item(y/n) ?\n";
     cin >> choice;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
     if(choice =='y'||choice =='Y') {
         fstream tmp("temp.dat",ios::binary|ios::out);
         fin.open("itemstore.dat",ios::binary);
@@ -776,6 +791,7 @@ void admin_delete_product() {
         char choice2;
         cout<<"\n\t Do you want to delete more item (y/n) ?";
         cin >> choice2;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
         if(choice2 =='y'||choice2 =='Y') goto view2;
         getch();
     } else {
@@ -811,10 +827,12 @@ void admin_edit_product() {
         cout << endl << "You entered invalid choice";
         cout << endl << "Do you wish to edit (Y/N)";
         cin >> ans1;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
     }
     if (ans1 == 'y' || ans1 == 'Y') goto edta;
     cout << endl << "Do you want edit other products(Y/N) ?";
     cin >> ans2;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
     if (ans2 == 'y' || ans2 == 'Y') goto edta;
     fio.close();
 }
@@ -900,6 +918,7 @@ void admin() {
         cout << "\t\t\t enter your option :\n ";
         int option;
         cin >> option;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
         switch (option) {
             case 1: admin_add_product(); break;
             case 2: admin_view_product_details(); break;
@@ -928,6 +947,7 @@ design(45,'*');
 gotoxy(1,5);
 cout<<"\n Do you want to take membership (y/n) ? ";
 cin>>ch;
+cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
 em.open("costumer.txt",ios::app|ios::out|ios::in);
 while(ch=='y'||ch=='Y')
 {
@@ -935,6 +955,7 @@ while(ch=='y'||ch=='Y')
  		em.write(reinterpret_cast<char*>(&co),sizeof(co));
 	cout<<"\n Do you want to create more credit card no. (y/n) ? ";
 	cin>>ch;
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
 }
 	em.close();
 	 //em.seekg(0);
@@ -1089,7 +1110,7 @@ int  pos;
 
 		cr.billcalc(crd,quantity,choice);
 		if(crd!=0)
-			co.calc(crd,quantity,choice);
+			co.cal();
 
 }
 //=============================================================
@@ -1101,6 +1122,7 @@ int  pos;
 	char ans;
 	cout<<endl<<"\n\t\t Do you have credit no.(y/n) ? ";
 	cin>>ans;
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
 	if(ans=='y'||ans=='Y')
 	{
 		cout<<endl<<" Input your Customer ID number : ";
@@ -1147,6 +1169,7 @@ int  pos;
                 int choice;
 				cout<<"\n Input the product's identification no. you want to buy :";
 				cin>>choice;
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
 				if(!em)
         {
             cout<<"\n\nFile Not Found...\nProgram Terminated!";
@@ -1176,6 +1199,7 @@ int  pos;
         //char ans;
         cout<<"\n\n press Y to continue and N to exit ? ";
             cin >> ans;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
         if(ans =='y'||ans =='Y')
             {
                 goto bgoto;
@@ -1224,6 +1248,7 @@ void user_purchase_product(int idc) {
     int choice;
     cout << "\n Input the product's identification no. you want to buy :";
     cin >> choice;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
     if (!em) {
         cout << "\n\nFile Not Found...\nProgram Terminated!";
         return;
@@ -1250,6 +1275,7 @@ void user_menu() {
     char ans;
     cout << endl << "\n\t\t Do you have credit no.(y/n) ? ";
     cin >> ans;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
     if (ans == 'y' || ans == 'Y') {
         cout << endl << " Input your Customer ID number : ";
         cin >> idc;
@@ -1259,6 +1285,7 @@ void user_menu() {
         user_purchase_product(idc);
         cout << "\n\n press Y to continue and N to exit ? ";
         cin >> ans;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore leftover input after choice selection
         if (!(ans == 'y' || ans == 'Y')) break;
     }
 }
