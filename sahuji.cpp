@@ -208,4 +208,47 @@ void amount::edt()
     iamt=(gross-(gross*(dis/100)));
 	total=iamt*qty;
 }
-
+void amount::del(int d)// used to delete unwanted product.
+{
+           flag=0;
+           int ino=d;
+           fin.close();
+           cout << "this is a try"<<ino;
+            fstream tmp("temp.dat",ios::binary|ios::out);
+            cout<<"\n\n\tEnter Item Number to be deleted :";
+            cin>>ino;
+            fin.open("itemstore.dat",ios::binary);
+            if(!fin)
+            {
+                cout<<"\n\nFile Not Found...";
+            }
+            fin.seekg(0);
+            while(fin.read((char*)&amt, sizeof(amt)))
+            {
+                int x=amt.project::retno();
+                if(x!=ino)
+                    tmp.write((char*)&amt,sizeof(amt));
+                else
+                {
+                    flag=1;
+                }
+            }
+            fin.close();
+            tmp.close();
+            fout.open("itemstore.dat",ios::trunc|ios::binary);
+            fout.seekp(0);
+            tmp.open("temp.dat",ios::binary|ios::in);
+            if(!tmp)
+            {
+                cout<<"Error in File";
+            }
+            while(tmp.read((char*)&amt,sizeof(amt)))
+                fout.write((char*)&amt,sizeof(amt));
+            tmp.close();
+            fout.close();
+            if(flag==1)
+               cout<<"\n\t\tItem Succesfully Deleted";
+            else if (flag==0)
+                cout<<"\n\t\tItem does not Exist! Please Retry";
+            getch();
+}
