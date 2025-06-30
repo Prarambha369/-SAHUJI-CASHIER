@@ -13,7 +13,6 @@
 - [User Functions](#user-functions)
 - [Changing Admin Password](#changing-admin-password)
 - [Screenshots and Videos](#screenshots-and-videos)
-- [Recent Changes / Changelog](#recent-changes--changelog)
 - [Contribution Guidelines](#contribution-guidelines)
 - [License](#license)
 
