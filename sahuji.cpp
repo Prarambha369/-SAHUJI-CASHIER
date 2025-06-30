@@ -526,3 +526,44 @@ int main()
  			 }
 
 
+
+
+
+			int retcradit()
+			{
+				return cradit;
+			}
+			void getdata()
+			{
+				cout<<endl<<"input name of customer :";
+				cin>>name;
+				cout<<endl<<"input citizenship no.: ";
+				cin>>ctn;
+				cout<<endl<<"input age:";
+				cin>>age;
+				calculation();
+			}
+			void calculation()
+			{
+				 srand( time(NULL) );
+   				 int number = (rand() % 9000)+1000;
+				  cradit=number;
+			}
+
+			int retcrad()
+			{
+				return cradit;
+			}
+
+			void display()
+		{
+			cout<<endl<<"\t Name: "<<name;
+			cout<<endl<<"\t Citizenship no.: " <<ctn;
+			cout<<endl<<"\t Age: "<<age;
+			cout<<endl<<"\t Customer ID no. is: "<<cradit;
+			cout<<endl<<"\t\t\txxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+	//		cout<<endl<<"\t money used: " <<mbuy;
+	//		cout<<endl<<"\t points: "<<points;
+		}
+		void calc(int,int, int);
+}co;
