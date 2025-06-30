@@ -400,3 +400,106 @@ void amount::report()
 
     }
 }
+
+int main()
+{
+	int ch;
+    float gtotal;
+        cout<<"\n \t\t\t=============================================================\n";
+        cout<<"\n\t\t\t\t\tWELCOME SAHUJI To Cashier App \n";
+        cout<<"\n \t\t\t=============================================================\n\n";
+        cout<<"\n\n\n\n\t\t\t\t\t  Made By:";
+        cout<<"\n\n\t\t\t\t Name\t\t\t\tMail Address";
+		cout<<"\n\t\t\t\t Prarambha Bashyal\t\t\tprarambhabashyal@gmail.com";
+
+		getch();
+	while(1)
+	{
+		menu:
+        std::string password,again;
+		static int tryd=3;
+		design(45,'*');
+		cout<<"\n\t\t\t  1. VIEW/GENERATE CUSTOMER ID ";
+        cout<<"\n\t\t\t  2. ADMIN ";
+        cout<<"\n\t\t\t  3. USER ";
+        cout<<"\n\t\t\t  4. EXIT ";
+        cout<<"\n\t\t\t Enter Your choice: ";
+        cin>>ch;
+        switch(ch)
+        {
+        	case 1:
+        		craditcard();
+        		break;
+            case 2:
+            	if(tryd>=1)
+            	{
+            		done:
+                    password = getpass("\n\n\n\t\t\t\tEnter the password for Admin : ", true);
+
+            		if(password=="admin")
+            	{
+
+                      admin();
+
+            		getch();
+              	 	break;
+				}
+				else
+				{
+					tryd--;
+					design(50,'*');
+					if(tryd>=1)
+					{
+						cout<<"\n\n\n\t\t\tWrong password you have "<<tryd<<" chances left:";
+						cout<<"\n\n\n\t\t\t Do you want to try again (y/n) ? ";
+						cin>>again;
+						if(again=="y"||again=="Y")
+						goto done;
+					}
+					break;
+				}
+				}
+				else
+				cout<<"\n\n\n\t\t\t Password try limit exceeded.";
+				getch();
+            	break;
+
+              case 3:
+               user();
+               break;
+
+            case 4:
+                design(45,'*');
+                gotoxy(20,15);
+        cout<<"ARE YOU SURE, YOU WANT TO EXIT (Y/N)?";
+        char yn;
+        cin>>yn;
+        if((yn=='Y')||(yn=='y'))
+        {
+            design(45,'*');
+            gotoxy(20,15);
+            cout <<"|=======================================================================|";
+            gotoxy(20,16);
+            cout<<"|********************************THANKS*********************************|";
+            gotoxy(20,17);
+            cout <<"|=======================================================================|";
+            getch();
+            exit(0);
+        }
+            else if((yn=='N')||(yn=='n'))
+            goto menu;
+            else
+        {
+            goto menu;
+        }
+
+
+              break;
+	        default:
+                cout<<"\n\n\n\n\t\t\t\t\tEnter valid choice\n";
+                getch();
+				break;
+        	    }
+    }
+    return 0;
+}
