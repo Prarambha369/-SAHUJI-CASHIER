@@ -594,3 +594,88 @@ class bill
 		}
 		void billcalc(int,int,int);
 }cr;
+
+
+void admin()
+{
+
+    adm: design(45,'*');
+    cout.setf(ios::fixed);
+    cout.setf(ios::showpoint);
+    cout<<setprecision(2);
+    fstream tmp("temp.dat",ios::binary|ios::out);
+    int option ;
+    cout << "\t\t\t 1. Add product \n ";
+    cout << "\t\t\t 2. View desired product details \n ";
+    cout << "\t\t\t 3. View product \n ";
+    cout << "\t\t\t 4. Delete \n ";
+    cout << "\t\t\t 5. Edit \n ";
+    cout << "\t\t\t 6. Refill \n ";
+    cout << "\t\t\t 7. Survey \n ";
+    cout << "\t\t\t 8. View bill \n";
+    cout << "\t\t\t 9. Gift hamper \n ";
+    cout << "\t\t\t 10. Return to main menu \n ";
+    cout << "\t\t\t enter your option :\n ";
+    cin  >> option ;
+    float gtotal;
+    int ff;
+   switch(option)
+   {
+       case 1:
+       {
+           design(45,'*');
+            add1: fout.open("itemstore.dat",ios::binary|ios::app);
+            amt.add();
+            cout<<"\n\t\tItem Added Successfully!";
+            char choice;
+            cout<<" Do you want to add more item(y/n) ?\n";
+            cin >> choice;
+            if(choice =='y'||choice =='Y')
+            {
+                goto add1;
+            }
+            else
+            goto adm;
+            getch();
+           break;
+       }
+       case 2:
+       {
+        design(45,'*');
+        view1: flag=0;
+        int ino;
+        cout<<"\n\n\t\tEnter Item  identification Number : ";
+        cin>>ino;
+        fin.open("itemstore.dat",ios::binary);
+        if(!fin)
+        {
+            cout<<"\n\nFile Not Found...\nProgram Terminated!";
+            goto adm;
+            break;
+        }
+        fin.seekg(0);
+        while(fin.read((char*)&amt,sizeof(amt)))
+        {
+            int x=amt.project::retno();
+            if(x==ino)
+            {
+                amt.pay();
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0)
+            cout<<"\n\t\tItem does not exist....Please Retry!";
+        getch();
+        fin.close();
+        char choice;
+            cout<<"\n\t do you want to view more item (y/n) ?";
+            cin >> choice;
+        if(choice =='y'||choice =='Y')
+            {
+                goto view1;
+            }
+            else
+             goto adm;
+           break;
+       }
