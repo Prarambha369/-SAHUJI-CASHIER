@@ -96,7 +96,8 @@ If you have a customer ID, you can earn points and track your purchases.
 ---
 
 ## 🖼️ Screenshots and Videos
-- ![Cashier System Example](URL_TO_IMAGE_HERE "Cashier Interface")
+
+- [Video](https://hc-cdn.hel1.your-objectstorage.com/s/v3/36e0dd2a5c46fef6a8141f9dc83062cd44e5cfa5_sahuji_app_run.mp4)
 
 ---
 
