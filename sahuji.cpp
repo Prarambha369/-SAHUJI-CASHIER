@@ -335,3 +335,24 @@ void amount::pay()// shows full detail of product in bill formate
     cout<<"\n\t\t----------------------------------------------";
     cout<<"\n\t\t*********************************************";
 }
+void amount::surv()
+{
+	float a=10*tqty/100;
+	if (qty<a)
+	{
+		cout<<endl;
+		cout<<endl<<"You need to add: ";
+		project::show();
+		cout<<endl<<"\tRemaining: "<<qty;
+		cout<<endl;
+		cout<<endl;
+	}
+	else
+	{
+		cout<<endl<<"You don't need to add";
+		project::show();
+		cout<<endl<<"\tRemaining: "<<qty;
+		cout<<endl;
+		cout<<endl;
+		}
+}
