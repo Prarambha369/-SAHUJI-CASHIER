@@ -567,3 +567,30 @@ int main()
 		}
 		void calc(int,int, int);
 }co;
+
+class bill
+{
+	protected:
+	int craditcr, idcr,amtcr,sp,qntcr;
+	char nam[50],ctn[50],prodnam[50];
+	public:
+
+		void disp()
+		{
+			cout<<endl;
+			if(craditcr!=0)
+			cout<<endl<<"costumer name:    "<<nam;
+			if(craditcr!=0)
+			cout<<endl<<"Customer ID no. :  "<<ctn;
+			cout<<endl<<"product name:     "<<prodnam;
+
+			if(craditcr!=0)
+			cout<<endl<<"Customer ID no. :  "<<craditcr;
+			cout<<endl<<"id of product:    "<<idcr;
+			cout<<endl<<"individual price: "<<sp;
+			cout<<endl<<"quantity:         "<<qntcr;
+			cout<<endl<<"total price:      "<<amtcr;
+			cout<<endl;
+		}
+		void billcalc(int,int,int);
+}cr;
