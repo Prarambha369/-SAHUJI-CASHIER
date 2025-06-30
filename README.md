@@ -90,7 +90,8 @@ If you have a customer ID, you can earn points and track your purchases.
 ---
 
 ## 🔑 Changing Admin Password
-1. Log in as admin.
+1. Log in as Admin.
+-   **Note:** The Admin password is `admin` by default.
 2. In the admin menu, select **11. Change Admin Password**.
 3. Enter and confirm the new password.
 4. The new password will be required for future admin logins.
