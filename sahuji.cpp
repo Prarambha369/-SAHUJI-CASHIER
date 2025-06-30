@@ -736,8 +736,8 @@ void admin()
             cout<<"TAX %";
             gotoxy(64,5);
             cout<<"DISCOUNT %";
-			gotoxy(74,5);
-			cout<<"SELLING PRICE";
+            gotoxy(74,5);
+            cout<<"SELLING PRICE";
             fin.open("itemstore.dat",ios::binary);
             if(!fin)
             {
@@ -832,54 +832,8 @@ void admin()
        {
 
        	//++++++++++++++++++++++++++++++++++++++++++++++++++++++
-       	edta: design(45,'*');
-        int inum,quanti;
-       cout<<"\n\n\tEnter Item Number to be edited :";
-        cin>>inum;
-
-
-        int  pos;
-        char ans1,ans2;
-	fstream fio;
-	  	fio.open("itemstore.dat",ios::in|ios::out|ios::binary);
-	 if(!fio)
-        {
-            cout<<"\n\nFile Not Found...\nProgram Terminated!";
-        }
-	int ans=0;
-	fio.seekg(0);
-	while(fio.read((char*)&amt,sizeof(amt)))
-	{
-		pos=fio.tellg();
-
-		if(inum==amt.project::retno())
-		{
-			ans++;
-			//cout<<endl<<"Input the quantity to be added"<<endl;
-			//cin>>quanti;
-			fio.seekg(pos-sizeof(amt));
-		//	qty+=quanti;
-		amt.edt();
-			fio.write((char*)&amt,sizeof(amt));
-
-		}
-	}
-
-	if (ans==0)
-	{
-		cout<<endl<<"You entered invalid choice";
-		cout<<endl<<"Do you wish to edit (Y/N)";
-		cin>>ans1;
-	}
-	if (ans1=='y'||ans1=='y')
-	goto edta;
-	cout<<endl<<"Do you want edit other products(Y/N) ?";
-	cin>>ans2;
-	if (ans2=='y'||ans2=='y')
-	goto edta;
-
-
-	 goto adm;
+       	admin_edit_product();
+       	 goto adm;
 				break;
 
 }
@@ -887,7 +841,7 @@ void admin()
 
         case 6:
        {
-       	amt.refille();
+       	admin_refill_product();
 		  goto adm;
        }
         case 7:
@@ -906,45 +860,13 @@ void admin()
 
        case 8:
        {
-       		design(45,'*');
-       		fstream em;
-       		em.open("bill.txt",ios::app|ios::out|ios::binary|ios::in);
-       			em.seekg(0);
-        	while(em.read((char*)&cr,sizeof(cr)))
-       			{
-       			//	cout<<"count"<<endl;
-       				cr.disp();
-				}
-			em.close();
-
-       		getch();
+       		admin_view_bills();
 		  	goto adm;
        	  	break;
        }
        case 9:
        {
-       		fstream em;
-	   		em.open("costumer.txt",ios::app|ios::out|ios::in);
-       		em.read(reinterpret_cast<char*>(&co),sizeof(co));
-		 	while(!em.eof())
-		 	{
-		 		co.cal();
-				em.read(reinterpret_cast<char*>(&co),sizeof(co));
-			 }
-       	em.close();
-          	design(45,'*');
-			cout<<endl<<"\t\t\t\tCONGRATULATIONS!!!";
-			cout<<endl<<"\n\t\t\t\tCostumer of the year is "<< name1;
-			cout<<endl<<"full detail of customer of the year is: ";
-			cout<<endl<<"\t Mr. "<<name1;
-			cout<<endl<<"\t Citizenship no.: " <<ctn1;
-			cout<<endl<<"\t age :"<<age1;
-			cout<<endl<<"\t Customer ID : "<<cradit1;
-	//		cout<<endl<<"\t money used: " <<mbuy1;
-	//		cout<<endl<<"\t points: "<<points1;
-
-
-          getch();
+       		admin_gift_hamper();
 		  goto adm;
 
           break;
@@ -955,18 +877,7 @@ void admin()
        }
        case 11:
        {
-           string newpass, confirmpass;
-           design(45,'*');
-           cout << "\n\t\t\tCHANGE ADMIN PASSWORD";
-           newpass = getpass("\n\n\t\tEnter new password: ", true);
-           confirmpass = getpass("\n\t\tConfirm new password: ", true);
-           if(newpass == confirmpass && !newpass.empty()) {
-               set_admin_password(newpass);
-               cout << "\n\t\tPassword changed successfully!";
-           } else {
-               cout << "\n\t\tPasswords do not match or are empty. Try again.";
-           }
-           getch();
+           admin_change_password();
            goto adm;
            break;
        }
