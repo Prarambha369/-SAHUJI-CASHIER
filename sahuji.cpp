@@ -793,3 +793,136 @@ void admin()
        }
        case 5:
        {
+
+       	//++++++++++++++++++++++++++++++++++++++++++++++++++++++
+       	edta: design(45,'*');
+        int inum,quanti;
+       cout<<"\n\n\tEnter Item Number to be edited :";
+        cin>>inum;
+
+
+        int  pos;
+        char ans1,ans2;
+	fstream fio;
+	  	fio.open("itemstore.dat",ios::in|ios::out|ios::binary);
+	 if(!fio)
+        {
+            cout<<"\n\nFile Not Found...\nProgram Terminated!";
+        }
+	int ans=0;
+	fio.seekg(0);
+	while(fio.read((char*)&amt,sizeof(amt)))
+	{
+		pos=fio.tellg();
+
+		if(inum==amt.project::retno())
+		{
+			ans++;
+			//cout<<endl<<"Input the quantity to be added"<<endl;
+			//cin>>quanti;
+			fio.seekg(pos-sizeof(amt));
+		//	qty+=quanti;
+		amt.edt();
+			fio.write((char*)&amt,sizeof(amt));
+
+		}
+	}
+
+	if (ans==0)
+	{
+		cout<<endl<<"You entered invalid choice";
+		cout<<endl<<"Do you wish to edit (Y/N)";
+		cin>>ans1;
+	}
+	if (ans1=='y'||ans1=='y')
+	goto edta;
+	cout<<endl<<"Do you want edit other products(Y/N) ?";
+	cin>>ans2;
+	if (ans2=='y'||ans2=='y')
+	goto edta;
+
+
+	 goto adm;
+				break;
+
+}
+       	//++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        case 6:
+       {
+       	amt.refille();
+		  goto adm;
+       }
+        case 7:
+       {
+	design(45,'*');
+       		 fin.open("itemstore.dat",ios::binary);
+
+       		while(fin.read((char*)&amt,sizeof(amt)))
+       		{
+       			amt.surv();
+			}
+			fin.close();
+          getch();
+		  goto adm;
+       }
+
+       case 8:
+       {
+       		design(45,'*');
+       		fstream em;
+       		em.open("bill.txt",ios::app|ios::out|ios::binary|ios::in);
+       			em.seekg(0);
+        	while(em.read((char*)&cr,sizeof(cr)))
+       			{
+       			//	cout<<"count"<<endl;
+       				cr.disp();
+				}
+			em.close();
+
+       		getch();
+		  	goto adm;
+       	  	break;
+       }
+       case 9:
+       {
+       		fstream em;
+	   		em.open("costumer.txt",ios::app|ios::out|ios::in);
+       		em.read(reinterpret_cast<char*>(&co),sizeof(co));
+		 	while(!em.eof())
+		 	{
+		 		co.cal();
+				em.read(reinterpret_cast<char*>(&co),sizeof(co));
+			 }
+       	em.close();
+          	design(45,'*');
+			cout<<endl<<"\t\t\t\tCONGRATULATIONS!!!";
+			cout<<endl<<"\n\t\t\t\tCostumer of the year is "<< name1;
+			cout<<endl<<"full detail of customer of the year is: ";
+			cout<<endl<<"\t Mr. "<<name1;
+			cout<<endl<<"\t Citizenship no.: " <<ctn1;
+			cout<<endl<<"\t age :"<<age1;
+			cout<<endl<<"\t Customer ID : "<<cradit1;
+	//		cout<<endl<<"\t money used: " <<mbuy1;
+	//		cout<<endl<<"\t points: "<<points1;
+
+
+          getch();
+		  goto adm;
+
+          break;
+       }
+       case 10:
+       {
+       	  break;
+       }
+        default:
+                cout<<"\n\n\n\n\t\t\t\t\tEnter valid choice\n";
+                getch();
+                 goto adm;
+				break;
+        }
+
+   }
+
+
