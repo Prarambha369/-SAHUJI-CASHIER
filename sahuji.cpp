@@ -248,7 +248,6 @@ void amount::add()// used to add numerical part of product to file
     gross=mrp+(mrp*(tax/100));
     iamt=(gross-(gross*(dis/100)));
     total=iamt*qty;
-    //profit=(iamt-price)*qty;
     fout.write((char *)&amt,sizeof(amt));
     fout.close();
 }
@@ -272,10 +271,7 @@ void amount::del(int d)// used to delete unwanted product.
            flag=0;
            int ino=d;
            fin.close();
-           cout << "this is a try"<<ino;
             fstream tmp("temp.dat",ios::binary|ios::out);
-            cout<<"\n\n\tEnter Item Number to be deleted :";
-            cin>>ino;
             fin.open("itemstore.dat",ios::binary);
             if(!fin)
             {
@@ -372,9 +368,6 @@ void amount::show()//used to show numerical portion of product
     cout<<iamt;
     cout<<"\n\n\t quantity : ";
     cout<<qty;
-
-    //cout<<"\n\n\tNet profit: ";
-    //cout<<profit;
     fin.close();
 }
 
@@ -498,8 +491,6 @@ int main()
             	{
             		done:
                     password = getpass("\n\n\n\t\t\t\tEnter the password for Admin : ", true);
-                    cout << "Debug: Entered password: '" << password << "', Expected password: '" << get_admin_password() << "'" << endl;
-                    // Use file-based password check
                     if(password==get_admin_password())
                     {
                         admin();
