@@ -926,3 +926,80 @@ void admin()
    }
 
 
+
+void costumer::calc(int a,int b,int c)
+{
+
+	int crad=a;
+	int quantity=b;
+	int choice=c;
+	float po,buy;
+
+	 fin.open("itemstore.dat",ios::binary);
+    while(fin.read((char*)&amt,sizeof(amt)))
+    {
+    	if(choice==amt.project::retno())
+    	{
+    		float d=amt.retiamt();
+			 int  pos;
+	fstream fio;
+	fio.open("costumer.txt",ios::in|ios::out|ios::binary);
+	while(fio.read((char*)&co,sizeof(co)))
+	{
+		pos=fio.tellg();
+
+		if(crad==cradit)
+		{
+			fio.seekg(pos-sizeof(co));
+					buy=d*quantity;
+					mbuy+=buy;
+					float e=2*d/100;
+					po=e*quantity;
+					points+=po;
+			fio.write((char*)&co,sizeof(co));
+		}
+		}
+		fio.close();
+		}
+	}
+    fin.close();
+}
+
+
+
+void craditcard()
+{
+fstream em;
+char ch;
+design(45,'*');
+gotoxy(1,5);
+cout<<"\n Do you want to take membership (y/n) ? ";
+cin>>ch;
+em.open("costumer.txt",ios::app|ios::out|ios::in);
+while(ch=='y'||ch=='Y')
+{
+ 		co.getdata();
+ 		em.write(reinterpret_cast<char*>(&co),sizeof(co));
+	cout<<"\n Do you want to create more credit card no. (y/n) ? ";
+	cin>>ch;
+}
+	em.close();
+	 //em.seekg(0);
+		 //	em.read(reinterpret_cast<char*>(&co),sizeof(co));
+		 system("cls");
+            cout<<"\n\t\t============================================================";
+		 	cout<<"\n\t\t\t\t     The Customer ID detail :";
+            cout<<"\n\t\t============================================================\n";
+
+
+	 em.open("costumer.txt",ios::app|ios::out|ios::in);
+		 	em.read(reinterpret_cast<char*>(&co),sizeof(co));
+		 	while(!em.eof())
+		 	{
+		 		co.display();
+		 		cout<<endl<<endl;
+				em.read(reinterpret_cast<char*>(&co),sizeof(co));
+			 }
+			 getch();
+			 em.close();
+}
