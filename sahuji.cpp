@@ -172,3 +172,25 @@ public:
 
 
 } amt;
+void amount::add()// used to add numerical part of product to file
+{
+    project::add();
+    cout<<"\n\n\t cost Price: ";
+    cin>>price;
+    cout<<"\n\n\tMark price: ";
+    cin>>mrp;
+    cout<<"\n\n\tQuantity: ";
+    cin>>qty;
+    tqty=qty;
+    cout<<"\n\n\tTax percent: ";
+    cin>>tax;
+    cout<<"\n\n\tDiscount percent: ";
+    cin>>dis;
+    gross=mrp+(mrp*(tax/100));
+    iamt=(gross-(gross*(dis/100)));
+    total=iamt*qty;
+    //profit=(iamt-price)*qty;
+    fout.write((char *)&amt,sizeof(amt));
+    fout.close();
+}
+
