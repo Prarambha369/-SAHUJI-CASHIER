@@ -1003,3 +1003,56 @@ while(ch=='y'||ch=='Y')
 			 getch();
 			 em.close();
 }
+
+//=========================================================for grnereting bill============
+
+void bill::billcalc(int a,int b,int c)
+{
+	int crdta=a;
+	int quantity=b;
+	int idno=c;
+	fstream em,eima,eimb,eimc;
+	em.open("bill.txt",ios::app|ios::out|ios::binary|ios::in);
+	eima.open("costumer.txt",ios::app|ios::out|ios::binary|ios::in);
+	eimb.open("itemstore.dat",ios::app|ios::out|ios::binary|ios::in);
+	if(!em)
+       	{
+   			cout<<"\n\nFile Not Found...\nProgram Terminated!";
+		}
+	while(eimb.read(reinterpret_cast<char*>(&amt),sizeof(amt)))
+	{
+		if(idno==amt.itemno)
+		{
+			strcpy(prodnam,amt.name);
+
+			idcr=amt.itemno;
+			sp=amt.iamt;
+		}
+
+	}
+//	if(crdta!=0)
+//	{
+		while(eima.read(reinterpret_cast<char*>(&co),sizeof(co)))
+	{
+		if(crdta==co.cradit)
+		{
+			strcpy(nam,co.name);
+				strcpy(ctn,co.ctn);
+			craditcr=co.cradit;
+		}
+
+	}
+//	}
+		qntcr=quantity;
+		amtcr=sp*quantity;
+
+	em.write(reinterpret_cast<char*>(&cr),sizeof(cr));
+
+	em.close();
+	eima.close();
+	eimb.close();
+		design(45,'*');
+disp();
+
+//	getch();
+}
