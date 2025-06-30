@@ -646,292 +646,280 @@ class bill
 }cr;
 
 
-void admin()
-{
-
-    adm: design(45,'*');
-    cout.setf(ios::fixed);
-    cout.setf(ios::showpoint);
-    cout<<setprecision(2);
-    fstream tmp("temp.dat",ios::binary|ios::out);
-    int option ;
-    cout << "\t\t\t 1. Add product \n ";
-    cout << "\t\t\t 2. View desired product details \n ";
-    cout << "\t\t\t 3. View product \n ";
-    cout << "\t\t\t 4. Delete \n ";
-    cout << "\t\t\t 5. Edit \n ";
-    cout << "\t\t\t 6. Refill \n ";
-    cout << "\t\t\t 7. Survey \n ";
-    cout << "\t\t\t 8. View bill \n";
-    cout << "\t\t\t 9. Gift hamper \n ";
-    cout << "\t\t\t 10. Return to main menu \n ";
-    cout << "\t\t\t 11. Change Admin Password \n ";
-    cout << "\t\t\t enter your option :\n ";
-    cin  >> option ;
-    float gtotal;
-    int ff;
-   switch(option)
-   {
-       case 1:
-       {
-           design(45,'*');
-            add1: fout.open("itemstore.dat",ios::binary|ios::app);
-            amt.add();
-            cout << "\n\t\tItem Added Successfully!";
-            char choice;
-            cout << " Do you want to add more item(y/n) ?\n";
-            cin >> choice;
-            if(choice =='y'||choice =='Y') goto add1;
-            getch();
-           break;
-       }
-       case 2:
-       {
-        design(45,'*');
-        view1: flag=0;
-        int ino;
-        cout << "\n\n\t\tEnter Item  identification Number : ";
-        cin >> ino;
-        fin.open("itemstore.dat",ios::binary);
-        if(!fin) {
-            cout << "\n\nFile Not Found...\nProgram Terminated!";
-            return;
-        }
-        fin.seekg(0);
-        while(fin.read((char*)&amt,sizeof(amt))) {
-            int x=amt.project::retno();
-            if(x==ino) {
-                amt.pay();
-                flag=1;
-                break;
-            }
-        }
-        if(flag==0)
-            cout << "\n\t\tItem does not exist....Please Retry!";
-        getch();
-        fin.close();
-        char choice;
-        cout << "\n\t do you want to view more item (y/n) ?";
-        cin >> choice;
-        if(choice =='y'||choice =='Y') goto view1;
-        break;
-       }
-
-       case 3:
-       {
-           design(45,'*');
-            gotoxy(34,3);
-            cout<<" <<  BILL DETAILS >> ";
-            gotoxy(1,5);
-            cout<<"ITEM ID ";
-            gotoxy(13,5);
-            cout<<"NAME";
-            gotoxy(23,5);
-            cout<<"COST PRICE";
-            gotoxy(33,5);
-            cout<<"MRP";
-            gotoxy(44,5);
-            cout<<"QUANTITY";
-            gotoxy(52,5);
-            cout<<"TAX %";
-            gotoxy(64,5);
-            cout<<"DISCOUNT %";
-            gotoxy(74,5);
-            cout<<"SELLING PRICE";
-            fin.open("itemstore.dat",ios::binary);
-            if(!fin)
-            {
-                cout<<"\n\nFile Not Found...";
-                 goto adm;
-                break;
-            }
-            fin.seekg(0);
-            gtotal=0;
-            k=7;
-            while(!fin.eof())
-            {
-                fin.read((char*)&amt,sizeof(amt));
-                if(!fin.eof())
-                {
-                    amt.report();
-                    gtotal+=amt.rettotal();
-                    ff=0;
-                }
-                if(ff!=0) gtotal=0;
-            }
-            gotoxy(17,k);
-            cout<<"\n\n\n\t\t\tGrand Total="<<gtotal;
-            getch();
-            fin.close();
-             goto adm;
-            break;
-       }
-       case 4:
-       {
-            view2: design(45,'*');
-            flag=0;
-            int ino;
-            dele: cout<<"\n\n\tEnter Item Number to be deleted :";
-            cin>>ino;
-            //cout <<"\n\n\t Item to be deleted is :";
-            //amt.show();
-            char choice;
-            cout<<" Do you want to delete this item(y/n) ?\n";
-            cin >> choice;
-            if(choice =='y'||choice =='Y')
-            {
-               fin.open("itemstore.dat",ios::binary);
-            if(!fin)
-            {
-                cout<<"\n\nFile Not Found...";
-            }
-            fin.seekg(0);
-            while(fin.read((char*)&amt, sizeof(amt)))
-            {
-                int x=amt.project::retno();
-                if(x!=ino)
-                    tmp.write((char*)&amt,sizeof(amt));
-                else
-                {
-                    flag=1;
-                }
-            }
-            fin.close();
-            tmp.close();
-            fout.open("itemstore.dat",ios::trunc|ios::binary);
-            fout.seekp(0);
-            tmp.open("temp.dat",ios::binary|ios::in);
-            if(!tmp)
-            {
-                cout<<"Error in File";
-            }
-            while(tmp.read((char*)&amt,sizeof(amt)))
-                fout.write((char*)&amt,sizeof(amt));
-            tmp.close();
-            fout.close();
-            if(flag==1)
-                cout<<"\n\t\t Item Successfully Deleted";
-            else if (flag==0)
-                cout<<"\n\t\t Item does not Exist! Please Retry";
-                char choice;
-            cout<<"\n\t Do you want to delete  more item (y/n) ?";
-            cin >> choice;
-        if(choice =='y'||choice =='Y')
-            {
-                goto view2;
-            }
-            else
-            getch();
-             goto adm;
-            break;
-            }
-            else
-            goto dele;
-       }
-       case 5:
-       {
-
-       	//++++++++++++++++++++++++++++++++++++++++++++++++++++++
-       	admin_edit_product();
-       	 goto adm;
-				break;
-
+void admin_add_product() {
+    design(45,'*');
+    add1: fout.open("itemstore.dat",ios::binary|ios::app);
+    amt.add();
+    cout << "\n\t\tItem Added Successfully!";
+    char choice;
+    cout << " Do you want to add more item(y/n) ?\n";
+    cin >> choice;
+    if(choice =='y'||choice =='Y') goto add1;
+    getch();
 }
-       	//++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        case 6:
-       {
-       	admin_refill_product();
-		  goto adm;
-       }
-        case 7:
-       {
-	design(45,'*');
-       		 fin.open("itemstore.dat",ios::binary);
-
-       		while(fin.read((char*)&amt,sizeof(amt)))
-       		{
-       			amt.surv();
-			}
-			fin.close();
-          getch();
-		  goto adm;
-       }
-
-       case 8:
-       {
-       		admin_view_bills();
-		  	goto adm;
-       	  	break;
-       }
-       case 9:
-       {
-       		admin_gift_hamper();
-		  goto adm;
-
-          break;
-       }
-       case 10:
-       {
-       	  break;
-       }
-       case 11:
-       {
-           admin_change_password();
-           goto adm;
-           break;
-       }
-        default:
-                cout<<"\n\n\n\n\t\t\t\t\tEnter valid choice\n";
-                getch();
-                 goto adm;
-				break;
+void admin_view_product_details() {
+    design(45,'*');
+    view1: flag=0;
+    int ino;
+    cout << "\n\n\t\tEnter Item  identification Number : ";
+    cin >> ino;
+    fin.open("itemstore.dat",ios::binary);
+    if(!fin) {
+        cout << "\n\nFile Not Found...\nProgram Terminated!";
+        return;
+    }
+    fin.seekg(0);
+    while(fin.read((char*)&amt,sizeof(amt))) {
+        int x=amt.project::retno();
+        if(x==ino) {
+            amt.pay();
+            flag=1;
+            break;
         }
+    }
+    if(flag==0)
+        cout << "\n\t\tItem does not exist....Please Retry!";
+    getch();
+    fin.close();
+    char choice;
+    cout << "\n\t do you want to view more item (y/n) ?";
+    cin >> choice;
+    if(choice =='y'||choice =='Y') goto view1;
+}
 
-   }
-
-
-
-void costumer::calc(int a,int b,int c)
-{
-
-	int crad=a;
-	int quantity=b;
-	int choice=c;
-	float po,buy;
-
-	 fin.open("itemstore.dat",ios::binary);
-    while(fin.read((char*)&amt,sizeof(amt)))
-    {
-    	if(choice==amt.project::retno())
-    	{
-    		float d=amt.retiamt();
-			 int  pos;
-	fstream fio;
-	fio.open("costumer.txt",ios::in|ios::out|ios::binary);
-	while(fio.read((char*)&co,sizeof(co)))
-	{
-		pos=fio.tellg();
-
-		if(crad==cradit)
-		{
-			fio.seekg(pos-sizeof(co));
-					buy=d*quantity;
-					mbuy+=buy;
-					float e=2*d/100;
-					po=e*quantity;
-					points+=po;
-			fio.write((char*)&co,sizeof(co));
-		}
-		}
-		fio.close();
-		}
-	}
+void admin_view_all_products() {
+    design(45,'*');
+    gotoxy(34,3);
+    cout<<" <<  BILL DETAILS >> ";
+    gotoxy(1,5);
+    cout<<"ITEM ID ";
+    gotoxy(13,5);
+    cout<<"NAME";
+    gotoxy(23,5);
+    cout<<"COST PRICE";
+    gotoxy(33,5);
+    cout<<"MRP";
+    gotoxy(44,5);
+    cout<<"QUANTITY";
+    gotoxy(52,5);
+    cout<<"TAX %";
+    gotoxy(64,5);
+    cout<<"DISCOUNT %";
+    gotoxy(74,5);
+    cout<<"SELLING PRICE";
+    fin.open("itemstore.dat",ios::binary);
+    if(!fin) {
+        cout<<"\n\nFile Not Found...";
+        return;
+    }
+    fin.seekg(0);
+    float gtotal=0;
+    k=7;
+    int ff=0;
+    while(!fin.eof()) {
+        fin.read((char*)&amt,sizeof(amt));
+        if(!fin.eof()) {
+            amt.report();
+            gtotal+=amt.rettotal();
+            ff=0;
+        }
+        if(ff!=0) gtotal=0;
+    }
+    gotoxy(17,k);
+    cout<<"\n\n\n\t\t\tGrand Total="<<gtotal;
+    getch();
     fin.close();
 }
 
+void admin_delete_product() {
+    view2: design(45,'*');
+    flag=0;
+    int ino;
+    dele: cout<<"\n\n\tEnter Item Number to be deleted :";
+    cin>>ino;
+    char choice;
+    cout<<" Do you want to delete this item(y/n) ?\n";
+    cin >> choice;
+    if(choice =='y'||choice =='Y') {
+        fstream tmp("temp.dat",ios::binary|ios::out);
+        fin.open("itemstore.dat",ios::binary);
+        if(!fin) {
+            cout<<"\n\nFile Not Found...";
+            return;
+        }
+        fin.seekg(0);
+        while(fin.read((char*)&amt, sizeof(amt))) {
+            int x=amt.project::retno();
+            if(x!=ino)
+                tmp.write((char*)&amt,sizeof(amt));
+            else
+                flag=1;
+        }
+        fin.close();
+        tmp.close();
+        fout.open("itemstore.dat",ios::trunc|ios::binary);
+        fout.seekp(0);
+        tmp.open("temp.dat",ios::binary|ios::in);
+        if(!tmp) {
+            cout<<"Error in File";
+            return;
+        }
+        while(tmp.read((char*)&amt,sizeof(amt)))
+            fout.write((char*)&amt,sizeof(amt));
+        tmp.close();
+        fout.close();
+        if(flag==1)
+            cout<<"\n\t\t Item Successfully Deleted";
+        else if(flag==0)
+            cout<<"\n\t\t Item does not Exist! Please Retry";
+        char choice2;
+        cout<<"\n\t Do you want to delete more item (y/n) ?";
+        cin >> choice2;
+        if(choice2 =='y'||choice2 =='Y') goto view2;
+        getch();
+    } else {
+        goto dele;
+    }
+}
 
+void admin_edit_product() {
+    edta: design(45,'*');
+    int inum;
+    cout << "\n\n\tEnter Item Number to be edited :";
+    cin >> inum;
+    int pos;
+    char ans1, ans2;
+    fstream fio;
+    fio.open("itemstore.dat", ios::in | ios::out | ios::binary);
+    if (!fio) {
+        cout << "\n\nFile Not Found...\nProgram Terminated!";
+        return;
+    }
+    int ans = 0;
+    fio.seekg(0);
+    while (fio.read((char *)&amt, sizeof(amt))) {
+        pos = fio.tellg();
+        if (inum == amt.project::retno()) {
+            ans++;
+            fio.seekg(pos - sizeof(amt));
+            amt.edt();
+            fio.write((char *)&amt, sizeof(amt));
+        }
+    }
+    if (ans == 0) {
+        cout << endl << "You entered invalid choice";
+        cout << endl << "Do you wish to edit (Y/N)";
+        cin >> ans1;
+    }
+    if (ans1 == 'y' || ans1 == 'Y') goto edta;
+    cout << endl << "Do you want edit other products(Y/N) ?";
+    cin >> ans2;
+    if (ans2 == 'y' || ans2 == 'Y') goto edta;
+    fio.close();
+}
 
+void admin_refill_product() {
+    amt.refille();
+}
+
+void admin_survey() {
+    design(45, '*');
+    fin.open("itemstore.dat", ios::binary);
+    while (fin.read((char *)&amt, sizeof(amt))) {
+        amt.surv();
+    }
+    fin.close();
+    getch();
+}
+
+void admin_view_bills() {
+    design(45, '*');
+    fstream em;
+    em.open("bill.txt", ios::app | ios::out | ios::binary | ios::in);
+    em.seekg(0);
+    while (em.read(reinterpret_cast<char *>(&cr), sizeof(cr))) {
+        cr.disp();
+    }
+    em.close();
+    getch();
+}
+
+void admin_gift_hamper() {
+    fstream em;
+    em.open("costumer.txt", ios::app | ios::out | ios::in);
+    em.read(reinterpret_cast<char *>(&co), sizeof(co));
+    while (!em.eof()) {
+        co.cal();
+        em.read(reinterpret_cast<char *>(&co), sizeof(co));
+    }
+    em.close();
+    design(45, '*');
+    cout << endl << "\t\t\t\tCONGRATULATIONS!!!";
+    cout << endl << "\n\t\t\t\tCostumer of the year is " << name1;
+    cout << endl << "full detail of customer of the year is: ";
+    cout << endl << "\t Mr. " << name1;
+    cout << endl << "\t Citizenship no.: " << ctn1;
+    cout << endl << "\t age :" << age1;
+    cout << endl << "\t Customer ID : " << cradit1;
+    getch();
+}
+
+void admin_change_password() {
+    string newpass, confirmpass;
+    design(45, '*');
+    cout << "\n\t\t\tCHANGE ADMIN PASSWORD";
+    newpass = getpass("\n\n\t\tEnter new password: ", true);
+    confirmpass = getpass("\n\t\tConfirm new password: ", true);
+    if (newpass == confirmpass && !newpass.empty()) {
+        set_admin_password(newpass);
+        cout << "\n\t\tPassword changed successfully!";
+    } else {
+        cout << "\n\t\tPasswords do not match or are empty. Try again.";
+    }
+    getch();
+}
+
+void admin() {
+    while (true) {
+        design(45, '*');
+        cout.setf(ios::fixed);
+        cout.setf(ios::showpoint);
+        cout << setprecision(2);
+        cout << "\t\t\t 1. Add product \n ";
+        cout << "\t\t\t 2. View desired product details \n ";
+        cout << "\t\t\t 3. View product \n ";
+        cout << "\t\t\t 4. Delete \n ";
+        cout << "\t\t\t 5. Edit \n ";
+        cout << "\t\t\t 6. Refill \n ";
+        cout << "\t\t\t 7. Survey \n ";
+        cout << "\t\t\t 8. View bill \n";
+        cout << "\t\t\t 9. Gift hamper \n ";
+        cout << "\t\t\t 10. Return to main menu \n ";
+        cout << "\t\t\t 11. Change Admin Password \n ";
+        cout << "\t\t\t enter your option :\n ";
+        int option;
+        cin >> option;
+        switch (option) {
+            case 1: admin_add_product(); break;
+            case 2: admin_view_product_details(); break;
+            case 3: admin_view_all_products(); break;
+            case 4: admin_delete_product(); break;
+            case 5: admin_edit_product(); break;
+            case 6: admin_refill_product(); break;
+            case 7: admin_survey(); break;
+            case 8: admin_view_bills(); break;
+            case 9: admin_gift_hamper(); break;
+            case 10: return;
+            case 11: admin_change_password(); break;
+            default:
+                cout << "\n\n\n\n\t\t\t\tEnter valid choice\n";
+                getch();
+                break;
+        }
+    }
+}
+// ...existing code...
 void craditcard()
 {
 fstream em;
