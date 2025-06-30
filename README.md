@@ -1,7 +1,8 @@
 # Sahuji Cashier System
 
 [![Apache License 2.0](https://img.shields.io/badge/License-Apache%202.0-red.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-
+[![GitHub Stars](https://img.shields.io/github/stars/Prarambha369/-SAHUJI-CASHIER.svg?style=social)](https://github.com/Prarambha369/-SAHUJI-CASHIER)
+[![HackaTime](https://hackatime-badge.hackclub.com/U0894AG5K1C/-SAHUJI-CASHIER)](https://hackatime.hackclub.com/U0894AG5K1C)
 ---
 
 ## 📋 Table of Contents
