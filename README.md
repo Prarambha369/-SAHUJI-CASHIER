@@ -1,24 +1,108 @@
 # Sahuji Cashier System
 
-[![Apache License 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Apache License 2.0](https://img.shields.io/badge/License-Apache%202.0-red.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-## Table of Contents
-- [What is this?](#what-is-this)
-- [How it helps](#how-it-helps)
-- [How to use](#how-to-use)
+---
 
-## What is this?
-SAHUJI is a console-based C++ application designed for a cashier system. It manages inventory, generates bills, handles customer data, and processes credit cards.
+## 📋 Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Step-by-Step Usage Guide](#step-by-step-usage-guide)
+- [Admin Functions](#admin-functions)
+- [User Functions](#user-functions)
+- [Changing Admin Password](#changing-admin-password)
+- [Screenshots and Videos](#screenshots-and-videos)
+- [License](#license)
 
-## How it helps
-This system automates retail operations like adding products, calculating taxes and discounts, tracking stock levels, and generating reports, which reduces errors and improves efficiency for small businesses.
+---
 
-## How to use
-- **Platform Dependency:** Requires Windows OS due to use of Windows-specific libraries (e.g., <windows.h>). It will not run on Linux without modifications.
-- **Prerequisites:** A C++ compiler such as MinGW or Visual Studio.
-- **Steps:**
-  1. Compile the code using `g++ sahuji.cpp -o sahuji` in a command prompt.
-  2. Run the executable with `./sahuji`.
-  3. Use the menu options for admin or user functions to manage the system.
+## 🛒 Overview
+**SAHUJI** is a console-based C++ application designed for small businesses to manage cashier operations. It helps you handle inventory, generate bills, manage customer data, and process credit cards, all from a simple terminal interface.
 
-**Note:** Ensure proper file permissions for data storage files like 'itemstore.dat'.
+---
+
+## ✨ Features
+- **Product Management:** Add, edit, delete, and view products with details like price, quantity, tax, and discount.
+- **Inventory Tracking:** Monitor stock levels and get alerts for low inventory.
+- **Billing System:** Generate and view bills for purchases.
+- **Customer Management:** Register customers, generate unique customer IDs, and track their purchases and points.
+- **Admin Security:** Password-protected admin area with the ability to change the password.
+- **Reports:** View product and billing reports.
+- **Gift Hamper:** Identify and display the top customer of the year.
+- **Cross-Platform:** Works on both Linux and Windows.
+
+---
+
+## 🚀 Step-by-Step Usage Guide
+
+### 1. **Installation**
+#### Linux
+```sh
+sudo apt install g++                # Install g++ if not already installed
+g++ sahuji.cpp -o sahuji            # Compile the program
+./sahuji                            # Run the program
+```
+#### Windows
+- Install MinGW or Visual Studio.
+- Compile with: `g++ sahuji.cpp -o sahuji`
+- Run: `sahuji.exe`
+
+### 2. **Main Menu Navigation**
+When you start the program, you'll see a menu with the following options:
+
+1. **VIEW/GENERATE CUSTOMER ID**
+2. **ADMIN**
+3. **USER**
+4. **EXIT**
+
+Use the number keys to select an option and follow the on-screen prompts.
+
+---
+
+## 🔐 Admin Functions
+To access admin features, select **ADMIN** from the main menu and enter the admin password (default: `admin`).
+
+**Admin Menu Options:**
+1. Add product
+2. View desired product details
+3. View all products
+4. Delete product
+5. Edit product
+6. Refill product quantity
+7. Survey (check low stock)
+8. View bill records
+9. Gift hamper (top customer)
+10. Return to main menu
+11. Change Admin Password
+
+---
+
+## 👤 User Functions
+Select **USER** from the main menu to:
+- View available products
+- Purchase products (with or without a customer ID)
+- Generate bills
+
+If you have a customer ID, you can earn points and track your purchases.
+
+---
+
+## 🔑 Changing Admin Password
+1. Log in as admin.
+2. In the admin menu, select **11. Change Admin Password**.
+3. Enter and confirm the new password.
+4. The new password will be required for future admin logins.
+
+---
+
+## 🖼️ Screenshots and Videos
+- ![Cashier System Example](URL_TO_IMAGE_HERE "Cashier Interface")
+
+---
+
+## 📄 License
+This project is licensed under the [Apache License 2.0](LICENSE).
+
+---
+
+**Enjoy using Sahuji Cashier System! made with <3 by Praarmbha**
