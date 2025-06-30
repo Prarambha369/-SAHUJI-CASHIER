@@ -679,3 +679,117 @@ void admin()
              goto adm;
            break;
        }
+
+       case 3:
+       {
+           design(45,'*');
+            gotoxy(34,3);
+            cout<<" <<  BILL DETAILS >> ";
+            gotoxy(1,5);
+            cout<<"ITEM ID ";
+            gotoxy(13,5);
+            cout<<"NAME";
+            gotoxy(23,5);
+            cout<<"COST PRICE";
+            gotoxy(33,5);
+            cout<<"MRP";
+            gotoxy(44,5);
+            cout<<"QUANTITY";
+            gotoxy(52,5);
+            cout<<"TAX %";
+            gotoxy(64,5);
+            cout<<"DISCOUNT %";
+			gotoxy(74,5);
+			cout<<"SELLING PRICE";
+            fin.open("itemstore.dat",ios::binary);
+            if(!fin)
+            {
+                cout<<"\n\nFile Not Found...";
+                 goto adm;
+                break;
+            }
+            fin.seekg(0);
+            gtotal=0;
+            k=7;
+            while(!fin.eof())
+            {
+                fin.read((char*)&amt,sizeof(amt));
+                if(!fin.eof())
+                {
+                    amt.report();
+                    gtotal+=amt.rettotal();
+                    ff=0;
+                }
+                if(ff!=0) gtotal=0;
+            }
+            gotoxy(17,k);
+            cout<<"\n\n\n\t\t\tGrand Total="<<gtotal;
+            getch();
+            fin.close();
+             goto adm;
+            break;
+       }
+       case 4:
+       {
+            view2: design(45,'*');
+            flag=0;
+            int ino;
+            dele: cout<<"\n\n\tEnter Item Number to be deleted :";
+            cin>>ino;
+            //cout <<"\n\n\t Item to be deleted is :";
+            //amt.show();
+            char choice;
+            cout<<" Do you want to delete this item(y/n) ?\n";
+            cin >> choice;
+            if(choice =='y'||choice =='Y')
+            {
+               fin.open("itemstore.dat",ios::binary);
+            if(!fin)
+            {
+                cout<<"\n\nFile Not Found...";
+            }
+            fin.seekg(0);
+            while(fin.read((char*)&amt, sizeof(amt)))
+            {
+                int x=amt.project::retno();
+                if(x!=ino)
+                    tmp.write((char*)&amt,sizeof(amt));
+                else
+                {
+                    flag=1;
+                }
+            }
+            fin.close();
+            tmp.close();
+            fout.open("itemstore.dat",ios::trunc|ios::binary);
+            fout.seekp(0);
+            tmp.open("temp.dat",ios::binary|ios::in);
+            if(!tmp)
+            {
+                cout<<"Error in File";
+            }
+            while(tmp.read((char*)&amt,sizeof(amt)))
+                fout.write((char*)&amt,sizeof(amt));
+            tmp.close();
+            fout.close();
+            if(flag==1)
+                cout<<"\n\t\t Item Successfully Deleted";
+            else if (flag==0)
+                cout<<"\n\t\t Item does not Exist! Please Retry";
+                char choice;
+            cout<<"\n\t Do you want to delete  more item (y/n) ?";
+            cin >> choice;
+        if(choice =='y'||choice =='Y')
+            {
+                goto view2;
+            }
+            else
+            getch();
+             goto adm;
+            break;
+            }
+            else
+            goto dele;
+       }
+       case 5:
+       {
