@@ -1183,3 +1183,82 @@ int  pos;
             else
             em.close();
 			 }
+void user_show_products() {
+    design(45,'*');
+    gotoxy(39,3);
+    cout << " BILL DETAILS ";
+    gotoxy(1,5);
+    cout << "ITEM ID";
+    gotoxy(13,5);
+    cout << "NAME";
+    gotoxy(23,5);
+    cout << "MRP";
+    gotoxy(33,5);
+    cout << "QUANTITY";
+    gotoxy(44,5);
+    cout << "TAX %";
+    gotoxy(52,5);
+    cout << "DISCOUNT %";
+    gotoxy(68,5);
+    cout << "PRICE";
+    fin.open("itemstore.dat", ios::binary);
+    if (!fin) {
+        cout << "\n\nFile Not Found...";
+        return;
+    }
+    fin.seekg(0);
+    k = 7;
+    while (!fin.eof()) {
+        fin.read((char *)&amt, sizeof(amt));
+        if (!fin.eof()) {
+            amt.report1();
+        }
+    }
+    gotoxy(17, k);
+    getch();
+    fin.close();
+}
+
+void user_purchase_product(int idc) {
+    fstream em("itemstore.dat", ios::binary | ios::app | ios::out | ios::in);
+    int choice;
+    cout << "\n Input the product's identification no. you want to buy :";
+    cin >> choice;
+    if (!em) {
+        cout << "\n\nFile Not Found...\nProgram Terminated!";
+        return;
+    }
+    em.seekg(0);
+    flag = 0;
+    while (em.read((char *)&amt, sizeof(amt))) {
+        int x = amt.project::retno();
+        if (x == choice) {
+            amt.pay1(choice, idc);
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0) {
+        cout << "\n\t\tItem does not exist....Please Retry!";
+        getch();
+    }
+    em.close();
+}
+
+void user_menu() {
+    int idc = 0;
+    char ans;
+    cout << endl << "\n\t\t Do you have credit no.(y/n) ? ";
+    cin >> ans;
+    if (ans == 'y' || ans == 'Y') {
+        cout << endl << " Input your Customer ID number : ";
+        cin >> idc;
+    }
+    while (true) {
+        user_show_products();
+        user_purchase_product(idc);
+        cout << "\n\n press Y to continue and N to exit ? ";
+        cin >> ans;
+        if (!(ans == 'y' || ans == 'Y')) break;
+    }
+}
