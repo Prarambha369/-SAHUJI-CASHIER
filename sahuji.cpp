@@ -318,3 +318,20 @@ void amount::show()//used to show numerical portion of product
     //cout<<profit;
     fin.close();
 }
+
+void amount::pay()// shows full detail of product in bill formate
+{
+    show();
+    cout<<"\n\n\n\t\t*********************************************";
+    cout<<"\n\t\t                 DETAILS                  ";
+    cout<<"\n\t\t*********************************************";
+    cout<<"\n\n\t\tCOST PRICE                        :Rs."<<price;
+    cout<<"\n\t\tMARK PRICE		          :Rs."<<mrp;
+    cout<<"\n\t\tQUANTITY                          :"<<qty;
+    cout<<"\n\t\tTAX PERCENTAGE                    :"<<tax;
+    cout<<"\n\t\tDISCOUNT PERCENTAGE               :"<<dis;
+    cout<<"\n\t\tSELLING PRICE                       :Rs."<<iamt;
+    cout<<"\n\t\tprofit                            :Rs."<<qty*(iamt-price);
+    cout<<"\n\t\t----------------------------------------------";
+    cout<<"\n\t\t*********************************************";
+}
