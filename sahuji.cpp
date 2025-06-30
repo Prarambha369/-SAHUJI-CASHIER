@@ -252,3 +252,54 @@ void amount::del(int d)// used to delete unwanted product.
                 cout<<"\n\t\tItem does not Exist! Please Retry";
             getch();
 }
+
+void amount::refille()// used to add number of goods when it is about to empty.
+{
+
+    	refi: design(45,'*');
+        int inum,quanti;
+        cout <<"\t\t\t\n Enter the item identification number:";
+        cin>>inum;
+
+
+        int  pos;
+        char ans1,ans2;
+	fstream fio;
+	  	fio.open("itemstore.dat",ios::in|ios::out|ios::binary);
+	 if(!fio)
+        {
+            cout<<"\n\nFile Not Found...\nProgram Terminated!";
+        }
+	int ans=0;
+	fio.seekg(0);
+	while(fio.read((char*)&amt,sizeof(amt)))
+	{
+		pos=fio.tellg();
+
+		if(inum==amt.project::retno())
+		{
+			ans++;
+			cout<<endl<<"Input the quantity to be added"<<endl;
+			cin>>quanti;
+			fio.seekg(pos-sizeof(amt));
+			qty+=quanti;
+			total=qty*iamt;
+			tqty=qty;
+			fio.write((char*)&amt,sizeof(amt));
+		}
+	}
+	if (ans==0)
+	{
+		cout<<endl<<"You entered invalid choice";
+		cout<<endl<<"Do you wish to add quantity (Y/N)";
+		cin>>ans1;
+	}
+	if (ans1=='y'||ans1=='y')
+	goto refi;
+	cout<<endl<<"do you want add other products(Y/N)";
+	cin>>ans2;
+	if (ans2=='y'||ans2=='y')
+	goto refi;
+
+	fio.close();
+}
