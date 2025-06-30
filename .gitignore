@@ -40,3 +40,9 @@
 # debug information files
 *.dwo
 !/venv/
+!/venv/lib/
+!/venv/include/
+!/venv/bin/
+!/venv/lib64/
+!/venv/pyvenv.cfg
+!/.idea/
