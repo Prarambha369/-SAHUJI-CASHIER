@@ -78,6 +78,24 @@ string getpass(const char *prompt, bool show_asterisk = true) {
     return password;
 }
 
+// Utility functions for admin password management
+string read_admin_password() {
+    ifstream fin("admin_pass.txt");
+    string pass;
+    if (fin.is_open()) {
+        getline(fin, pass);
+        fin.close();
+        if (!pass.empty()) return pass;
+    }
+    // Default password if file does not exist or is empty
+    return "admin";
+}
+void write_admin_password(const string& pass) {
+    ofstream fout("admin_pass.txt");
+    fout << pass;
+    fout.close();
+}
+
 class project // base and main class where almost every thing is done.
 {
 	friend class bill;
@@ -427,28 +445,27 @@ int main()
             		done:
                     password = getpass("\n\n\n\t\t\t\tEnter the password for Admin : ", true);
 
-            		if(password=="admin")
-            	{
-
-                      admin();
-
-            		getch();
-              	 	break;
-				}
-				else
-				{
-					tryd--;
-					design(50,'*');
-					if(tryd>=1)
-					{
-						cout<<"\n\n\n\t\t\tWrong password you have "<<tryd<<" chances left:";
-						cout<<"\n\n\n\t\t\t Do you want to try again (y/n) ? ";
-						cin>>again;
-						if(again=="y"||again=="Y")
-						goto done;
-					}
-					break;
-				}
+                    // Use file-based password check
+                    if(password==read_admin_password())
+                    {
+                        admin();
+                        getch();
+                        break;
+                    }
+                    else
+                    {
+                        tryd--;
+                        design(50,'*');
+                        if(tryd>=1)
+                        {
+                            cout<<"\n\n\n\t\t\tWrong password you have "<<tryd<<" chances left:";
+                            cout<<"\n\n\n\t\t\t Do you want to try again (y/n) ? ";
+                            cin>>again;
+                            if(again=="y"||again=="Y")
+                            goto done;
+                        }
+                        break;
+                    }
 				}
 				else
 				cout<<"\n\n\n\t\t\t Password try limit exceeded.";
@@ -607,6 +624,7 @@ void admin()
     cout << "\t\t\t 8. View bill \n";
     cout << "\t\t\t 9. Gift hamper \n ";
     cout << "\t\t\t 10. Return to main menu \n ";
+    cout << "\t\t\t 11. Change Admin Password \n ";
     cout << "\t\t\t enter your option :\n ";
     cin  >> option ;
     float gtotal;
@@ -907,6 +925,23 @@ void admin()
        case 10:
        {
        	  break;
+       }
+       case 11:
+       {
+           string newpass, confirmpass;
+           design(45,'*');
+           cout << "\n\t\t\tCHANGE ADMIN PASSWORD";
+           newpass = getpass("\n\n\t\tEnter new password: ", true);
+           confirmpass = getpass("\n\t\tConfirm new password: ", true);
+           if(newpass == confirmpass && !newpass.empty()) {
+               write_admin_password(newpass);
+               cout << "\n\t\tPassword changed successfully!";
+           } else {
+               cout << "\n\t\tPasswords do not match or are empty. Try again.";
+           }
+           getch();
+           goto adm;
+           break;
        }
         default:
                 cout<<"\n\n\n\n\t\t\t\t\tEnter valid choice\n";
