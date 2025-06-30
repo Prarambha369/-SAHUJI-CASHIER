@@ -86,3 +86,53 @@ string getpass(const char *prompt, bool show_asterisk = true)
   cout <<endl;
   return password;
 }
+
+class project // base and main class where almost every thing is done.
+{
+	friend class bill;
+	protected:
+    int itemno ;
+    char name[25];
+    date d;
+public:
+    void add()// member function used to add product in file
+    {
+        cout<<"\n\n\tItem identification No: ";
+        cin>>itemno;
+
+        cout<<"\n\n\tName of the item: ";
+        cin>>name;
+        cout<<"\n\n\tManufacturing Date(dd-mm-yy): ";
+        cin>>d.mm>>d.dd>>d.yy;
+    }
+      void uadd()
+    {
+        cout<<"\n\n\tName of the item: ";
+        cin>>name;
+        cout<<"\n\n\tManufacturing Date(dd-mm-yy): ";
+        cin>>d.mm>>d.dd>>d.yy;
+    }
+
+       void show()// used to display product on screen
+    {
+        cout<<"\n\tItem identification  No: ";
+        cout<<itemno;
+        cout<<"\n\n\tName of the item: ";
+        cout<<name;
+        cout<<"\n\n\tDate : ";
+        cout<<d.mm<<"-"<<d.dd<<"-"<<d.yy;
+    }
+    int retno()// used to calculate grand total amount
+    {
+        return(itemno);
+
+    }
+    void report()
+    {
+        gotoxy(3,k);
+        cout<<itemno;
+        gotoxy(13,k);
+        puts(name);
+    }
+}po;
+
