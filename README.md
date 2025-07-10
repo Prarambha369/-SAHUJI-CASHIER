@@ -85,8 +85,6 @@ Select **USER** from the main menu to:
 - Purchase products (with or without a customer ID)
 - Generate bills
 
-If you have a customer ID, you can earn points and track your purchases.
-
 ---
 
 ## 🔑 Changing Admin Password
