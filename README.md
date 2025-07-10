@@ -12,8 +12,9 @@
 - [Admin Functions](#admin-functions)
 - [User Functions](#user-functions)
 - [Changing Admin Password](#changing-admin-password)
+- [Data Storage Update (2025)](#data-storage-update-2025)
+- [Troubleshooting](#troubleshooting)
 - [Screenshots and Videos](#screenshots-and-videos)
-- [Recent Changes / Changelog](#recent-changes--changelog)
 - [Contribution Guidelines](#contribution-guidelines)
 - [License](#license)
 
@@ -63,20 +64,18 @@ Use the number keys to select an option and follow the on-screen prompts.
 ---
 
 ## 🔐 Admin Functions
-To access admin features, select **ADMIN** from the main menu and enter the admin password (default: `admin`).
+To access admin features, select **ADMIN** from the main menu and enter the admin password (default: `admin`, or whatever you set).
 
 **Admin Menu Options:**
 1. Add product
-2. View desired product details
+2. View product details (by ID)
 3. View all products
-4. Delete product
-5. Edit product
-6. Refill product quantity
-7. Survey (check low stock)
-8. View bill records
-9. Gift hamper (top customer)
-10. Return to main menu
-11. Change Admin Password
+4. Edit product
+5. Delete product
+6. Refill product stock
+7. View bills
+8. Change Admin Password
+9. Back to Main Menu
 
 ---
 
@@ -92,10 +91,23 @@ If you have a customer ID, you can earn points and track your purchases.
 
 ## 🔑 Changing Admin Password
 1. Log in as Admin.
--   **Note:** The Admin password is `admin` by default.
-2. In the admin menu, select **11. Change Admin Password**.
+   - **Note:** The Admin password is `admin` by default, and can be changed in the menu.
+2. In the admin menu, select **8. Change Admin Password**.
 3. Enter and confirm the new password.
 4. The new password will be required for future admin logins.
+
+---
+
+## ⚡ Data Storage Update (2025)
+- All data is now stored in plain text (CSV) files: `products.dat`, `customers.dat`, and `bills.dat`.
+- If you previously used an old version, delete any existing `.dat` files before running the new version to avoid crashes.
+- Data is cross-platform and human-readable.
+
+---
+
+## 🐞 Troubleshooting
+- If you get a crash or see strange characters in `.dat` files, delete those files and re-add your data.
+- Always recompile (`g++ sahuji.cpp -o sahuji`) after updating the code.
 
 ---
 
